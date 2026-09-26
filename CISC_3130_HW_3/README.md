@@ -1,0 +1,4 @@
+- Assignment: Homework #3 for CISC 3130, Prof. Hulse
+- Name: Nathan Chin
+- Programming Language: Java
+- Editor: Vim
