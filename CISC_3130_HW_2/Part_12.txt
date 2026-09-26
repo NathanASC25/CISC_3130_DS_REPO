@@ -1,0 +1,11 @@
+Part 12: Algorithm Comparison Table
+
+Algorithm, Purpose, Big O
+
+Bubble Sort -> Sorting -> O(n ^ 2)
+
+Merge Sort -> Sorting -> O(n * log(n))
+
+Linear Search -> Searching -> O(n)
+
+Binary Search -> Searching -> O(log(n))
