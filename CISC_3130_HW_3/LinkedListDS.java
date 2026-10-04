@@ -1,4 +1,4 @@
-class Main {
+class LinkedListDS {
 
   public static void main(String[] args) {
 
