@@ -1,4 +1,4 @@
-private class Node {
+class Node {
 
   Node next;
 

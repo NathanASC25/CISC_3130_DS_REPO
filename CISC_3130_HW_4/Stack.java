@@ -1,4 +1,4 @@
-private class Stack {
+class Stack {
 
   Node head;
 
@@ -6,7 +6,7 @@ private class Stack {
 
   int size;
 
-  void push(int val) {
+  void push(String val) {
 
     newNode = new Node(val);
 
@@ -60,19 +60,19 @@ private class Stack {
 
     Node currentNode = head;
 
-    str += String.format("[ %d", currentNode.val);
+    str += String.format("[ %s", currentNode.val);
 
     currentNode = currentNode.next;
 
     while (currentNode.next != null) {
 
-      str += String.format(", %d", currentNode.val);
+      str += String.format(", %s", currentNode.val);
 
       currentNode = currentNode.next;
 
     }
 
-    return str += String.format(", %d ]\n", currentNode.val);
+    return str += String.format(", %s ]\n", currentNode.val);
 
   }
 
