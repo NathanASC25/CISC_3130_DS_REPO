@@ -2,6 +2,44 @@ import java.util.Scanner;
 
 class DoublyLinkedList {
 
+  // Node class exclusively utilized by DoublyLinkedList with the prev pointer
+
+  private class Node {
+
+    Node next;
+
+    Node prev;
+
+    String val;
+
+    public Node(String val) {
+
+      this.val = val;
+
+    }
+
+    @Override
+
+    public String toString() {
+
+      Node current = this;
+
+      String str = "\n";
+
+      while (current.next != null) {
+
+        str += String.format("%d -> ", current.val);
+
+        current = current.next;
+
+      }
+
+      return str += String.format("%d \n", current.val);
+
+    }
+
+  }
+
   Node head;
 
   Node tail;
@@ -12,9 +50,7 @@ class DoublyLinkedList {
 
   int size;
 
-  void search() {
-
-    Scanner input = new Scanner(System.in);
+  void search(Scanner input) {
 
     System.out.print("\nDo you want to search for a song and its position, or the one before or after it? (Options: song, before, after): ");
 

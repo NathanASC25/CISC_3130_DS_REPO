@@ -1,8 +1,12 @@
 import java.util.HashMap;
 
+import java.util.Scanner;
+
 class Main {
 
   public static void main(String[] args) {
+
+    Scanner input = new Scanner(System.in);
 
     HashMap<String, Integer> playCounts = new HashMap<>();
 
@@ -20,13 +24,15 @@ class Main {
 
     playlist.prepend(-1, "1");
 
-    playlist.search();
+    playlist.search(input);
 
     playlist.delete(2);
 
     System.out.print(playlist);
 
-    playlist.search();
+    playlist.search(input);
+
+    input.close();
 
   }
 
