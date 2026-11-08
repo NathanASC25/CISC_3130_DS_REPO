@@ -6,7 +6,7 @@ class Stack {
 
   int size;
 
-  void push(String val) {
+  void push(MusicPlayer.song val) {
 
     newNode = new Node(val);
 
@@ -45,6 +45,8 @@ class Stack {
     System.out.printf("\nThe stack has %d elements.\n", size);
 
   }
+
+  // String Array representation of stack
 
   @Override
 

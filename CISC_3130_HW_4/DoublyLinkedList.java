@@ -2,44 +2,6 @@ import java.util.Scanner;
 
 class DoublyLinkedList {
 
-  // Node class exclusively utilized by DoublyLinkedList with the prev pointer
-
-  private class Node {
-
-    Node next;
-
-    Node prev;
-
-    String val;
-
-    public Node(String val) {
-
-      this.val = val;
-
-    }
-
-    @Override
-
-    public String toString() {
-
-      Node current = this;
-
-      String str = "\n";
-
-      while (current.next != null) {
-
-        str += String.format("%d -> ", current.val);
-
-        current = current.next;
-
-      }
-
-      return str += String.format("%d \n", current.val);
-
-    }
-
-  }
-
   Node head;
 
   Node tail;
@@ -138,7 +100,7 @@ class DoublyLinkedList {
 
   }
 
-  void append(String val) {
+  void append(MusicPlayer.song val) {
 
     newNode = new Node(val);
 
@@ -176,7 +138,7 @@ class DoublyLinkedList {
 
   }
 
-  void prepend(int indexOfNode, String val) {
+  void prepend(int indexOfNode, MusicPlayer.song val) {
 
     if (indexOfNode < 0 || indexOfNode >= size) {
 

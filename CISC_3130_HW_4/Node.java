@@ -2,11 +2,13 @@ class Node {
 
   Node next;
 
-  // No prev pointer for Node by default
+  // Previous pointer for nodes in the Doubly Linked List and Stack
 
-  String val;
+  Node prev;
 
-  public Node(String val) {
+  MusicPlayer.song val;
+
+  public Node(MusicPlayer.song val) {
 
     this.val = val;
 
@@ -22,13 +24,13 @@ class Node {
 
     while (current.next != null) {
 
-      str += String.format("%d -> ", current.val);
+      str += String.format("{ id: %d, title: %s, artist: %s } -> ", current.val.id(), current.val.title(), current.val.artist());
 
       current = current.next;
 
     }
 
-    return str += String.format("%d \n", current.val);
+    return str += String.format("{ id: %d, title: %s, artist: %s }\n", current.val.id(), current.val.title(), current.val.artist());
 
   }
 
