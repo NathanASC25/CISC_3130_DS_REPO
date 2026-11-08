@@ -27,7 +27,7 @@ class MusicPlayer {
 
   private static DoublyLinkedList playlist = new DoublyLinkedList();
 
-  private static Map<Integer, song> library = new HashMap<>();
+  private static Map<String, Node> library = new HashMap<>();
 
   private static Deque<song> up_next = new ArrayDeque<>();
 
@@ -37,9 +37,13 @@ class MusicPlayer {
 
   // --------------
   
-  // Current variable to track current song
+  // Head Node variable to keep pointer to head node (first song) for necessary reassignment
+  
+  private static Node head;
+  
+  // Current variable to track current song and latest song added to library and playlist
 
-  Node current;
+  private static Node current;
 
   public static void main(String[] args) {
 
@@ -67,15 +71,15 @@ class MusicPlayer {
 
     input.close();
 
-    printSong(findSong(5));
+    printSong(findSong("F"));
 
-    printSong(findSong(6));
+    printSong(findSong("G"));
 
     showPlaylist();
 
   }
 
-  private static void printSong(song obj) {
+  private static void printSong(Node obj) {
 
     if (obj == null) {
 
@@ -85,7 +89,7 @@ class MusicPlayer {
 
     }
 
-    System.out.printf("\n{ id: %d, title: %s, artist: %s }\n", obj.id, obj.title, obj.artist);
+    System.out.printf("\n{ id: %d, title: %s, artist: %s }\n", obj.val.id, obj.val.title, obj.val.artist);
 
   }
 
@@ -93,7 +97,7 @@ class MusicPlayer {
 
     // If requested song id is less than universal id count and a song in the library or playlist already exists with that id, invalidate operation
 
-    if (MusicPlayer.song_id > song_id && findSong(song_id) != null) {
+    if (MusicPlayer.song_id > song_id && findSong(title) != null) {
 
       return false;
 
@@ -117,23 +121,39 @@ class MusicPlayer {
 
     }
 
-    library.put(song_id, new_song);
+    // If song dded to playlist is first song, current node will be first song. Otherwise, move to next node to add to the library.
+
+    if (new_song.id == 0) {
+
+      head = playlist.head;
+
+      current = head;
+
+    }
+
+    else {
+
+      current = current.next;
+
+    }
+
+    library.put(new_song.title, current);
 
     return true;
 
   }
 
-  private static song findSong(int song_id) {
+  private static Node findSong(String song_title) {
 
-    // If requested song id is greater than or equal to universal song id counter, the song doesn't exist
+    // OLD: If requested song id is greater than or equal to universal song id counter, the song doesn't exist
 
-    if (MusicPlayer.song_id <= song_id) {
+    /*if (MusicPlayer.song_id <= song_id) {
 
       return null;
 
-    }
+    }*/
 
-   return library.get(song_id);
+   return library.get(song_title);
 
   }
 
@@ -142,11 +162,11 @@ class MusicPlayer {
     System.out.print(playlist);
 
   }
-
+/*
   private static void play(int song_id) {
 
     
 
-  }
+  }*/
 
 }
