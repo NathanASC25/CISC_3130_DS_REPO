@@ -162,11 +162,47 @@ class MusicPlayer {
     System.out.print(playlist);
 
   }
-/*
+
   private static void play(int song_id) {
 
-    
+    current = head;
 
-  }*/
+    if (song_id == current.val.id) {
+
+      start(current.val);
+
+      return;
+
+    }
+
+    if (song_id > current.val.id) {
+
+      return;
+
+    }
+
+    if (song_id < current.val.id) {
+
+      return;
+
+    }
+
+  }
+
+  // Helper method
+
+  private static void start(Node song) {
+
+    if (findSong(song.val.title) == null) {
+
+      return;
+
+    }
+
+    current = song;
+
+    play_counts.put(song.val.id, play_counts.get(song.val.id) + 1);
+
+  }
 
 }
