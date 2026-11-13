@@ -181,7 +181,21 @@ class MusicPlayer {
 
     Node play_first_song = play(0);
 
+    // Debugging to prevent history from pushing duplicate entries, and handling null runtime
+
+    //System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
+
     Node play_ninth_song = play(8);
+
+   // System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
+
+    Node play_next_1 = next();
+
+   // System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
+
+    Node play_next_2 = next();
+
+   // System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
 
     try {
 
@@ -207,6 +221,30 @@ class MusicPlayer {
 
     }
 
+    System.out.printf("\nnext: %s", play_next_1.val.title);
+
+    System.out.printf("\nnext: %s", play_next_2.val.title);
+
+    System.out.print("\nhistory: [");
+
+    temp = loop_node_tracker;
+
+    // Latest addition to history stack is at the head node
+
+    loop_node_tracker = history.head;
+
+    //System.out.printf("\nhistory: %s", history);
+
+    while (loop_node_tracker.next != null) {
+
+      System.out.printf(" %s,", loop_node_tracker.val.title);
+
+      loop_node_tracker = loop_node_tracker.next;
+
+    }
+
+    System.out.printf(" %s ]", loop_node_tracker.val.title);
+
     System.out.print("\n--- 4. Up next ---");
 
     boolean deque_mod_1 = queueLater(4);
@@ -219,6 +257,10 @@ class MusicPlayer {
 
     DoublyLinkedList up_next_list = showUpNext();
 
+    Node play_next_3 = next();
+
+    Node now_playing_1 = nowPlaying();
+
     System.out.printf("\n%b", deque_mod_1);
 
     System.out.printf("\n%b", deque_mod_2);
@@ -230,6 +272,26 @@ class MusicPlayer {
     System.out.print("\nup next: [");
 
     loop_node_tracker = up_next_list.head;
+
+    while (loop_node_tracker.next != null) {
+
+      System.out.printf(" %s,", loop_node_tracker.val.title);
+
+      loop_node_tracker = loop_node_tracker.next;
+
+    }
+
+    System.out.printf(" %s ]", loop_node_tracker.val.title);
+
+    System.out.printf("\nnext: %s", play_next_3.val.title);
+
+    System.out.printf("\nnow playing: %s", now_playing_1.val.title);
+
+    System.out.print("\nhistory: [");
+
+    temp = loop_node_tracker;
+
+    loop_node_tracker = history.head;
 
     while (loop_node_tracker.next != null) {
 
@@ -431,9 +493,21 @@ class MusicPlayer {
 
   private static Node play(int song_id) {
 
+    // If current playing song value is same as the history, invalidate push operation since the previous play operation involved a non-existent song
+
     if (current_playing_song != null) {
 
-      history.push(current_playing_song.val);
+      if (history.head != null && current_playing_song.val.title.equals(history.head.val.title)) {
+
+        // Do nothing
+
+      }
+
+      else {
+
+        history.push(current_playing_song.val);
+
+      }
 
     }
 
@@ -509,6 +583,10 @@ class MusicPlayer {
 
     //System.out.print("\nSong doesn't exist\n");
 
+    // OLD APPROACH: Any attempt to play a song that doesn't exist will assign null to the current playing song variable. A previous playing song is sent to the latest history
+
+   // current_playing_song = null;
+
     return null;
 
   }
@@ -549,13 +627,13 @@ class MusicPlayer {
 
     if (current_playing_song == null) {
 
-      System.out.print("\nNo song is currently playing.\n");
+      //System.out.print("\nNo song is currently playing.\n");
 
     }
 
     else {
 
-      System.out.printf("\nSong (%s) is currently playing\n", current_playing_song.val.title);
+     // System.out.printf("\nSong (%s) is currently playing\n", current_playing_song.val.title);
 
     }
 
@@ -645,10 +723,26 @@ class MusicPlayer {
 
   }
 
-  /*private static Node next() {
+  private static Node next() {
 
-    return
+    if (up_next.size() == 0) {
 
-  }*/
+      // If there is no current song playing and the curated up next deque is empty, return null
+
+      if (current_playing_song == null || findSong(current_playing_song.val.id + 1) == null) {
+
+        return null;
+
+      }
+
+      return play(current_playing_song.val.id + 1);
+
+    }
+
+    song next_song = up_next.pollFirst();
+
+    return play(next_song.id);
+
+  }
 
 }
