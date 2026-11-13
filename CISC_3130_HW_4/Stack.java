@@ -16,7 +16,7 @@ class Stack {
 
     size += 1;
 
-    System.out.print("\nNew Node pushed to Stack.\n");
+    // System.out.print("\nNew Node pushed to Stack.\n");
 
   }
 

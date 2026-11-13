@@ -110,7 +110,7 @@ class DoublyLinkedList {
 
       size += 1;
 
-      System.out.print("\nNew Song added to playlist!\n");
+      //System.out.print("\nNew Song added to playlist!\n");
 
       return;
 
@@ -134,7 +134,7 @@ class DoublyLinkedList {
 
     size += 1;
 
-    System.out.print("\nNew Song added to playlist!\n");
+    //System.out.print("\nNew Song added to playlist!\n");
 
   }
 
@@ -160,7 +160,7 @@ class DoublyLinkedList {
 
       size += 1;
 
-      System.out.print("\nNew Song added to playlist!\n");
+      //System.out.print("\nNew Song added to playlist!\n");
 
       return;
 
@@ -192,7 +192,7 @@ class DoublyLinkedList {
 
     size += 1;
 
-    System.out.print("\nNew Song added to playlist!\n");
+    //System.out.print("\nNew Song added to playlist!\n");
 
   }
 
