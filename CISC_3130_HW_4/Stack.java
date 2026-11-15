@@ -19,12 +19,24 @@ class Stack {
     // System.out.print("\nNew Node pushed to Stack.\n");
 
   }
-
+/* OLD POP METHOD
   void pop() {
 
     System.out.printf("\nRemoved Node Value: %d\n", head.val);
 
     head = head.next;
+
+  } */
+
+  // NEW POP METHOD
+
+  Node pop() {
+
+    Node temp = head;
+
+    head = head.next;
+
+    return temp;
 
   }
 
@@ -47,6 +59,8 @@ class Stack {
   }
 
   // String Array representation of stack
+  
+  /* OLD toString() METHOD
 
   @Override
 
@@ -75,6 +89,38 @@ class Stack {
     }
 
     return str += String.format(", %s ]\n", currentNode.val);
+
+  } */
+
+  // NEW toString() METHOD
+
+  @Override
+
+  public String toString() {
+
+    if (isEmpty()) {
+
+      return "The stack is empty!";
+
+    }
+
+    String str = "\n";
+
+    Node currentNode = head;
+
+    str += String.format("[ %s", currentNode.val.title());
+
+    currentNode = currentNode.next;
+
+    while (currentNode.next != null) {
+
+      str += String.format(", %s", currentNode.val.title());
+
+      currentNode = currentNode.next;
+
+    }
+
+    return str += String.format(", %s ]\n", currentNode.val.title());
 
   }
 

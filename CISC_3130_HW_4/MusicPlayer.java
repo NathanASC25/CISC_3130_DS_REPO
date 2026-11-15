@@ -34,6 +34,10 @@ class MusicPlayer {
   private static Map<Integer, Integer> play_counts = new HashMap<>();
 
   // --------------
+
+  // Data Structure to keep track of removed songs so that history and up_next may skip
+
+  private static Map<String, Node> removed_songs = new HashMap<>();
   
   // Head Node variable to keep pointer to head node (first song) for necessary reassignment
   
@@ -93,6 +97,8 @@ class MusicPlayer {
 
     current = head;
 
+    // Loop node tracker variable utilized for traversing lists and stacks for printing purposes before linkedlist and stack toString() method updates
+
     loop_node_tracker = head;
 
     // Check if duplicate of song 3 (count instances of song name)
@@ -123,13 +129,13 @@ class MusicPlayer {
 
     }
 
-    System.out.printf("duplicate s3: %b\n", duplicate_s3);
+    System.out.printf("duplicate s3: %b", duplicate_s3);
 
     //printSong(findSong("F"));
 
     //printSong(findSong("G"));
-
-    System.out.print("playlist: ");
+    
+    System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -179,13 +185,13 @@ class MusicPlayer {
 
     // First song starts at index 0
 
-    Node play_first_song = play(0);
+    Node play_first_song = play(0, false);
 
     // Debugging to prevent history from pushing duplicate entries, and handling null runtime
 
     //System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
 
-    Node play_ninth_song = play(8);
+    Node play_ninth_song = play(8, false);
 
    // System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
 
@@ -225,17 +231,19 @@ class MusicPlayer {
 
     System.out.printf("\nnext: %s", play_next_2.val.title);
 
-    System.out.print("\nhistory: [");
+    //System.out.print("\nhistory: [");
 
     temp = loop_node_tracker;
 
     // Latest addition to history stack is at the head node
 
-    loop_node_tracker = history.head;
+    //loop_node_tracker = history.head;
+    
+    // Utilize new toString() method for stacks
 
-    //System.out.printf("\nhistory: %s", history);
+    System.out.printf("\nhistory: %s", history);
 
-    while (loop_node_tracker.next != null) {
+    /*while (loop_node_tracker.next != null) {
 
       System.out.printf(" %s,", loop_node_tracker.val.title);
 
@@ -243,7 +251,7 @@ class MusicPlayer {
 
     }
 
-    System.out.printf(" %s ]", loop_node_tracker.val.title);
+    System.out.printf(" %s ]", loop_node_tracker.val.title);*/
 
     System.out.print("\n--- 4. Up next ---");
 
@@ -257,6 +265,8 @@ class MusicPlayer {
 
     DoublyLinkedList up_next_list = showUpNext();
 
+    //System.out.printf("\nup next: %s", up_next_list);
+
     Node play_next_3 = next();
 
     Node now_playing_1 = nowPlaying();
@@ -269,7 +279,9 @@ class MusicPlayer {
 
     System.out.printf("\nqueue s9: %b", deque_mod_4);
 
-    System.out.print("\nup next: [");
+    System.out.printf("\nup next: %s", up_next_list);
+
+    /*System.out.print("\nup next: [");
 
     loop_node_tracker = up_next_list.head;
 
@@ -281,13 +293,15 @@ class MusicPlayer {
 
     }
 
-    System.out.printf(" %s ]", loop_node_tracker.val.title);
+    System.out.printf(" %s ]", loop_node_tracker.val.title); */
 
     System.out.printf("\nnext: %s", play_next_3.val.title);
 
     System.out.printf("\nnow playing: %s", now_playing_1.val.title);
 
-    System.out.print("\nhistory: [");
+    System.out.printf("\nhistory: %s", history);
+
+    /*System.out.print("\nhistory: [");
 
     temp = loop_node_tracker;
 
@@ -303,7 +317,179 @@ class MusicPlayer {
 
     System.out.printf(" %s ]", loop_node_tracker.val.title);
 
-    loop_node_tracker = temp;
+    loop_node_tracker = temp;*/
+
+    System.out.print("\n--- 5. Back button ---");
+
+    Node play_back_1 = back();
+
+    System.out.printf("\nback: %s", play_back_1.val.title);
+
+    System.out.printf("\nup next: %s", showUpNext());
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.print("\n--- 6. Remove songs ---");
+
+    boolean remove_fifth_song = removeSong(4);
+
+    boolean remove_third_song = removeSong(2);
+
+    boolean remove_ninth_song = removeSong(8);
+
+    System.out.printf("\nremove s5: %b", remove_fifth_song);
+
+    System.out.printf("\nremove current (s3): %b", remove_third_song);
+
+    System.out.printf("\nremove s9: %b", remove_ninth_song);
+
+    System.out.print("\nplaylist: ");
+
+    showPlaylist();
+
+    System.out.printf("\nup next: %s", showUpNext());
+
+    System.out.print("\n--- 7. Removed songs are skipped ---");
+
+    Node play_next_4 = next();
+
+    Node play_next_5 = next();
+
+    Node play_next_6 = next();
+
+    Node now_playing_2 = nowPlaying();
+
+    Node play_back_2 = back();
+
+    System.out.printf("\nnext: %s", play_next_4.val.title);
+
+    System.out.printf("\nnext: %s", play_next_5.val.title);
+
+    try {
+
+      System.out.printf("\nnext at end: %s", play_next_6.val.title);
+
+    }
+
+    catch (Exception e) {
+
+      System.out.print("\nnext at end: null");
+
+    }
+
+    System.out.printf("\nnow playing: %s", now_playing_2.val.title);
+
+    System.out.printf("\nback: %s", play_back_2.val.title);
+
+    System.out.printf("\nup next: %s", showUpNext());
+
+    System.out.printf("\n--- 8. Play counts ---");
+
+    int play_count_song_1 = playCount(0);
+
+    int play_count_song_3 = playCount(2);
+
+    int play_count_song_6 = playCount(5);
+
+    int play_count_song_5 = playCount(4);
+
+    System.out.printf("\ns1: %d", play_count_song_1);
+
+    System.out.printf("\ns3: %d", play_count_song_3);
+
+    System.out.printf("\ns6: %d", play_count_song_6);
+
+    System.out.printf("\ns5 (removed): %d", play_count_song_5);
+
+    System.out.print("\n--- 9. Empty player ---");
+
+    current_playing_song = null;
+
+    int iterator = 0;
+
+    playlist = new DoublyLinkedList();
+
+    while (iterator <= song_id) {
+
+      Node remove_song = findSong(iterator);
+
+      current_playing_song = remove_song;
+
+      if (current_playing_song == null) {
+
+        iterator += 1;
+
+        continue;
+
+      }
+
+      removeSong(current_playing_song.val.id);
+
+      iterator += 1;
+
+    }
+
+    while (history.head != null) {
+
+      history.head = history.head.next;
+
+    }
+
+    while (up_next.size() > 0) {
+
+      up_next.pollFirst();
+
+    }
+
+    // Playlist size: 0
+
+    //System.out.printf("\nplaylist size: %d", playlist.size());
+
+    Node empty_next_1 = next();
+
+    Node empty_back_1 = back();
+
+    Node empty_now_playing = nowPlaying();
+
+    try {
+
+      System.out.printf("\nnext: %s", empty_next_1.val.title);
+
+    }
+
+    catch (Exception e) {
+
+      System.out.print("\nnext: null");
+
+    }
+
+    try {
+
+      System.out.printf("\nback: %s", empty_back_1.val.title);
+
+    }
+
+    catch (Exception e) {
+
+      System.out.print("\nback: null");
+
+    }
+
+    try {
+
+      System.out.printf("\nnow playing: %s", empty_now_playing.val.title);
+
+    }
+
+    catch (Exception e) {
+
+      System.out.printf("\nnow playing: %s", empty_now_playing);
+
+    }
+
+    System.out.print("\nplaylist: ");
+
+    showPlaylist();
 
   }
 
@@ -471,9 +657,19 @@ class MusicPlayer {
 
     Node temp = loop_node_tracker;
 
-    loop_node_tracker = head;
+    loop_node_tracker = playlist.head;
 
-    System.out.print("\n[ ");
+    System.out.print("[ ");
+
+    if (loop_node_tracker == null) {
+
+      loop_node_tracker = temp;
+
+      System.out.print("]");
+
+      return;
+
+    }
 
     while (loop_node_tracker.next != null) {
 
@@ -491,7 +687,7 @@ class MusicPlayer {
 
   }
 
-  private static Node play(int song_id) {
+  private static Node play(int song_id, boolean playing_back) {
 
     // If current playing song value is same as the history, invalidate push operation since the previous play operation involved a non-existent song
 
@@ -503,7 +699,7 @@ class MusicPlayer {
 
       }
 
-      else {
+      else if (!playing_back) {
 
         history.push(current_playing_song.val);
 
@@ -651,7 +847,7 @@ class MusicPlayer {
 
       // Uses findSong method utilizing integer id as parameter
 
-      System.out.printf("\nSong (%s) has been played %d times.\n", findSong(song_id));
+      //System.out.printf("\nSong (%s) has been played %d times.\n", findSong(song_id));
 
       return play_counts.get(song_id);
 
@@ -659,7 +855,15 @@ class MusicPlayer {
 
     catch (Exception e) {
 
-      System.out.print("\nSong doesn't exist\n");
+      // Possibly removed song can still retrieve play count
+
+      if (play_counts.get(song_id) != null) {
+
+        return play_counts.get(song_id);
+
+      }
+
+      //System.out.print("\nSong doesn't exist\n");
 
       return 0;
 
@@ -713,7 +917,17 @@ class MusicPlayer {
 
     while (copy.size() > 0) {
 
-      up_next_list.append(copy.pollFirst());
+      song copy_song = copy.pollFirst();
+
+      // Entering both a string or song value for the argument in the get method will not be differentiated
+
+      if (removed_songs.get(copy_song.title) == null) {
+
+        // Append the copy value
+
+        up_next_list.append(copy_song);
+
+      }
 
     }
 
@@ -725,6 +939,24 @@ class MusicPlayer {
 
   private static Node next() {
 
+    /*if (up_next.size() == 0) {
+
+      // If there is no current song playing and the curated up next deque is empty, return null
+
+      if (current_playing_song == null || findSong(current_playing_song.val.id + 1) == null) {
+
+        return null;
+
+      }
+
+      return play(current_playing_song.val.id + 1, false);
+
+    }
+
+    song next_song = up_next.pollFirst();
+
+    return play(next_song.id, false);*/
+
     if (up_next.size() == 0) {
 
       // If there is no current song playing and the curated up next deque is empty, return null
@@ -735,13 +967,139 @@ class MusicPlayer {
 
       }
 
-      return play(current_playing_song.val.id + 1);
+      // Get the next song in the playlist that is also not removed
+
+      return play(current_playing_song.val.id + 1, false);
 
     }
 
     song next_song = up_next.pollFirst();
 
-    return play(next_song.id);
+    if (removed_songs.get(next_song.title) != null) {
+
+      while (up_next.size() > 0) {
+
+        // Removed song from playlist also eventually gets removed from up_next list
+	
+        if (removed_songs.get(next_song.title) == null) {
+
+          break;
+
+	}
+
+        next_song = up_next.pollFirst();
+
+      }
+
+    }
+
+    // If next_song still is a removed song after iterating through the entire up_next list, return null
+
+    if (removed_songs.get(next_song.title) != null) {
+
+      return null;
+
+    }
+
+    return play(next_song.id, false);
+
+  }
+
+  private static Node back() {
+
+    if (history.head == null) {
+
+      return null;
+
+    }
+
+    Node previous_song = history.pop();
+
+    if (removed_songs.get(previous_song.val.title) != null) {
+
+      while (history.head != null) {
+
+        if (removed_songs.get(history.head.val.title) == null) {
+
+          break;
+
+	}
+
+        previous_song = history.pop();
+
+      }
+
+    }
+
+    if (removed_songs.get(previous_song.val.title) != null) {
+
+      return null;
+
+    }
+
+    Node move_song_next = current_playing_song;
+
+    queueNext(move_song_next.val.id);
+
+    return play(previous_song.val.id, true);
+
+  }
+
+  private static DoublyLinkedList showHistory() {
+
+    if (history.head == null) {
+
+      return null;
+
+    }
+
+    DoublyLinkedList history_list = new DoublyLinkedList();
+
+    Node temp = loop_node_tracker;
+
+    loop_node_tracker = history.head;
+
+    while (loop_node_tracker != null) {
+
+      if (removed_songs.get(loop_node_tracker.val.title) != null) {
+
+        loop_node_tracker = loop_node_tracker.next;
+
+        continue;
+
+      }
+
+      Node copy = new Node(loop_node_tracker.val);
+
+      history_list.append(copy.val);
+
+      loop_node_tracker = loop_node_tracker.next;
+
+    }
+
+    loop_node_tracker = temp;
+
+    return history_list;
+
+  }
+
+  private static boolean removeSong(int song_id) {
+
+    if (findSong(song_id) == null || current_playing_song.val.id == song_id) {
+
+      return false;
+
+    }
+
+    Node copy_song = findSong(song_id);
+
+    playlist.delete(song_id);
+
+    library.remove(copy_song.val.title);
+
+    removed_songs.put(copy_song.val.title, copy_song);
+
+    return true;
 
   }
 

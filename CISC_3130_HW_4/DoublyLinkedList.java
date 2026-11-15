@@ -108,6 +108,8 @@ class DoublyLinkedList {
 
       head = newNode;
 
+      tail = head;
+
       size += 1;
 
       //System.out.print("\nNew Song added to playlist!\n");
@@ -132,11 +134,14 @@ class DoublyLinkedList {
 
     current.next = newNode;
 
+    tail = current.next;
+
     size += 1;
 
     //System.out.print("\nNew Song added to playlist!\n");
 
   }
+
 
   void prepend(int indexOfNode, MusicPlayer.song val) {
 
@@ -177,6 +182,14 @@ class DoublyLinkedList {
       current = current.next;
 
       index += 1;
+
+    }
+
+    if (current.next == null) {
+
+      System.out.print("\nCannot prepend nodes after last node.\n");
+
+      return;
 
     }
 
@@ -234,6 +247,12 @@ class DoublyLinkedList {
 
     current.next.prev = current;
 
+    if (current.next == null) {
+
+      tail = current;
+
+    }
+
     size -= 1;
 
     System.out.print("\nSong removed from playlist!\n");
@@ -246,7 +265,9 @@ class DoublyLinkedList {
 
   }
 
-  @Override
+/*  OLD toString() METHOD:
+ *
+ *  @Override
 
   public String toString() {
 
@@ -271,6 +292,42 @@ class DoublyLinkedList {
     }
 
     return str += String.format(", %s ]\n", current.val);
+
+  } */
+
+  // NEW toString() METHOD:
+
+  @Override
+
+  public String toString() {
+
+    if (size == 0) {
+
+      return "\nThe playlist is empty!\n";
+
+    }
+
+    current = head;
+
+    String str = String.format("\n[ %s", current.val.title());
+
+    current = current.next;
+
+    if (current == null) {
+
+      return str += " ]";
+
+    }
+
+    while (current.next != null) {
+
+      str += String.format(", %s", current.val.title());
+
+      current = current.next;
+
+    }
+
+    return str += String.format(", %s ]\n", current.val.title());
 
   }
 
