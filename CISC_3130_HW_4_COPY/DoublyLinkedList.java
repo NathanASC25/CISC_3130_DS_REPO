@@ -245,7 +245,11 @@ class DoublyLinkedList {
 
     current.next = current.next.next;
 
-    current.next.prev = current;
+    if (current.next != null) {
+
+      current.next.prev = current;
+
+    }
 
     if (current.next == null) {
 
@@ -313,7 +317,7 @@ class DoublyLinkedList {
 
     if (size == 0) {
 
-      return "\nThe playlist is empty!\n";
+      return "\n[ ]\n";
 
     }
 
@@ -330,6 +334,12 @@ class DoublyLinkedList {
     }
 
     while (current.next != null) {
+
+      if (current == head) {
+
+        return str += " ]\n";
+
+      }
 
       str += String.format(", %s", current.val.title());
 

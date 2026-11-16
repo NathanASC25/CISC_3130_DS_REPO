@@ -55,6 +55,14 @@ class MusicPlayer {
   
   private static Node loop_node_tracker;
 
+  // Boolean variable to check if previous play attempt was successful
+
+  private static boolean previous_play_success;
+
+  // EXTRA CREDIT FEATURE: REPEAT MODE
+  
+  private static boolean repeat_playlist;
+
   public static void main(String[] args) {
 
     // Test Section 1
@@ -135,7 +143,7 @@ class MusicPlayer {
 
     //printSong(findSong("G"));
     
-    System.out.print("\nplaylist: ");
+    //System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -343,7 +351,7 @@ class MusicPlayer {
 
     System.out.printf("\nremove s9: %b", remove_ninth_song);
 
-    System.out.print("\nplaylist: ");
+    //System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -401,7 +409,53 @@ class MusicPlayer {
 
     System.out.printf("\ns5 (removed): %d", play_count_song_5);
 
-    System.out.print("\n--- 9. Empty player ---");
+    System.out.print("\n--- EXTRA CREDIT: Repeat Playlist ---");
+
+    // Assigning next of tail to head, creating a circular linked list
+
+    playlist.tail.next = playlist.head;
+
+    setRepeat(true);
+
+    showPlaylist();
+
+    System.out.printf("\nup next: %s", showUpNext());
+
+    System.out.printf("\nplaylist head title: %s", playlist.head.val.title);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_last_song = play(song_id - 1, false);
+
+    Node play_next_7 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_next_8 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.printf("\nLast Song (Start from last in playlist): %s", play_last_song.val.title);
+
+    System.out.printf("\nAfter last song (from up next): %s", play_next_7.val.title);
+
+    System.out.printf("\nAfter last last song (Start over from playlist head): %s", play_next_8.val.title);
+
+    // Go through the list again until last song
+
+    Node play_next_9 = next();
+
+    Node play_next_10 = next();
+
+    Node play_next_11 = next();
+
+    Node play_next_12 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.printf("\ncurrent song: %s", current_playing_song.val.title);
+
+  /*  System.out.print("\n--- 9. Empty player ---");
 
     current_playing_song = null;
 
@@ -414,7 +468,7 @@ class MusicPlayer {
       Node remove_song = findSong(iterator);
 
       current_playing_song = remove_song;
-
+      
       if (current_playing_song == null) {
 
         iterator += 1;
@@ -489,7 +543,15 @@ class MusicPlayer {
 
     System.out.print("\nplaylist: ");
 
-    showPlaylist();
+    showPlaylist();*/
+
+  }
+
+  // EXTRA CREDIT FEATURE: REPEAT PLAYLIST MODE
+
+  private static void setRepeat(boolean mode) {
+
+    repeat_playlist = mode;
 
   }
 
@@ -655,7 +717,7 @@ class MusicPlayer {
 
   private static void showPlaylist() {
 
-    Node temp = loop_node_tracker;
+    /*Node temp = loop_node_tracker;
 
     loop_node_tracker = playlist.head;
 
@@ -683,7 +745,9 @@ class MusicPlayer {
 
     // Revert back to current variable's original Node position
 
-    loop_node_tracker = temp;
+    loop_node_tracker = temp;*/
+
+    System.out.printf("\nplaylist: %s", playlist);
 
   }
 
@@ -693,13 +757,25 @@ class MusicPlayer {
 
     if (current_playing_song != null) {
 
-      if (history.head != null && current_playing_song.val.title.equals(history.head.val.title)) {
+      /*if (!playing_back && history.head != null && current_playing_song.val.title.equals(history.head.val.title) && !from_up_next) {
 
         // Do nothing
 
       }
 
-      else if (!playing_back) {
+      else if (!playing_back || history.head != null && current_playing_song.val.title.equals(history.head.val.title) && from_up_next && !playing_back) {
+	
+        history.push(current_playing_song.val);
+
+      }*/
+
+      if (history.head != null && current_playing_song.val.title.equals(history.head.val.title) && !previous_play_success) {
+
+        // Do nothing
+
+      }
+
+      else if (history.head != null && current_playing_song.val.title.equals(history.head.val.title) && previous_play_success || !playing_back && previous_play_success) {
 
         history.push(current_playing_song.val);
 
@@ -714,6 +790,8 @@ class MusicPlayer {
       start(findSong(song_id));
 
       Node foundNode = head;
+
+      previous_play_success = true;
 
       return foundNode;
 
@@ -763,6 +841,8 @@ class MusicPlayer {
 
         start(foundNode);
 
+	previous_play_success = true;
+
 	return foundNode;
 
       }
@@ -782,6 +862,8 @@ class MusicPlayer {
     // OLD APPROACH: Any attempt to play a song that doesn't exist will assign null to the current playing song variable. A previous playing song is sent to the latest history
 
    // current_playing_song = null;
+   
+    previous_play_success = false;
 
     return null;
 
@@ -939,6 +1021,8 @@ class MusicPlayer {
 
   private static Node next() {
 
+    //System.out.printf("\nsize: %d", up_next.size());
+
     /*if (up_next.size() == 0) {
 
       // If there is no current song playing and the curated up next deque is empty, return null
@@ -959,15 +1043,65 @@ class MusicPlayer {
 
     if (up_next.size() == 0) {
 
+      if ( (current_playing_song.next == playlist.head && repeat_playlist) || ( song_id == current_playing_song.val.id - 1) || (findSong(current_playing_song.val.id + 1) == null && repeat_playlist) ) {
+
+        return play(playlist.head.val.id, false);
+
+      }
+
       // If there is no current song playing and the curated up next deque is empty, return null
 
-      if (current_playing_song == null || findSong(current_playing_song.val.id + 1) == null) {
+      if (current_playing_song == null || ( findSong(current_playing_song.val.id + 1) == null && !repeat_playlist )) {
+
+        if (current_playing_song != null && removed_songs.get(current_playing_song.val.title) != null) {
+
+          //System.out.print("\nHere!");
+
+          Node temp = loop_node_tracker;
+
+          loop_node_tracker = current_playing_song;
+
+          while (loop_node_tracker != playlist.head) {
+
+            if (removed_songs.get(loop_node_tracker.val.title) == null) {
+
+              break;
+
+	    }
+
+            loop_node_tracker = loop_node_tracker.next;
+
+	  }
+
+          if (loop_node_tracker != playlist.head) {
+
+            int id = loop_node_tracker.val.id;
+
+            loop_node_tracker = temp;
+
+            return play(id, false);
+
+	  }
+
+          return play(playlist.head.val.id, false);
+
+	}
+
+        previous_play_success = false;
 
         return null;
 
       }
 
       // Get the next song in the playlist that is also not removed
+
+      // The main song_id counter assigns the id to a new song added to the playlist. The latest added song will always have one less than the main song id counter
+      
+      /*if (song_id == current_playing_song.val.id - 1 || findSong(current_playing_song.val.id + 1) == null && repeat_playlist) {
+
+        return play(playlist.head.val.id, false);
+
+      }*/
 
       return play(current_playing_song.val.id + 1, false);
 
@@ -987,19 +1121,39 @@ class MusicPlayer {
 
 	}
 
+	//System.out.printf("\nup_next size: %d", up_next.size());
+
         next_song = up_next.pollFirst();
 
       }
 
     }
 
+    //System.out.printf("\n%b", current_playing_song.val.title.equals(next_song.title));
+
+    //System.out.print(history);
+
     // If next_song still is a removed song after iterating through the entire up_next list, return null
 
-    if (removed_songs.get(next_song.title) != null) {
+    if (removed_songs.get(next_song.title) != null && up_next.size() == 0 && repeat_playlist) {
+
+      return play(head.val.id, false);
+
+    }
+
+    else if (removed_songs.get(next_song.title) != null && up_next.size() == 0) {
+
+      previous_play_success = false;
 
       return null;
 
     }
+
+    //System.out.print("\nHere!");
+
+    //System.out.printf("\nCurrently playing: %s", current_playing_song.val.title);
+
+    //System.out.printf("\nup next size: %d", up_next.size());
 
     return play(next_song.id, false);
 
@@ -1008,6 +1162,8 @@ class MusicPlayer {
   private static Node back() {
 
     if (history.head == null) {
+
+      previous_play_success = false;
 
       return null;
 
@@ -1032,6 +1188,8 @@ class MusicPlayer {
     }
 
     if (removed_songs.get(previous_song.val.title) != null) {
+
+      previous_play_success = false;
 
       return null;
 
