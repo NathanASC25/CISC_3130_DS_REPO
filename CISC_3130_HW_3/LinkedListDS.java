@@ -78,6 +78,8 @@ class LinkedListDS {
 
         size += 1;
 
+        System.out.print("\nNew Node added to list!\n");
+
         return;
 
       }

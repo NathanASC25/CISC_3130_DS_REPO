@@ -38,6 +38,10 @@ class MusicPlayer {
   // Data Structure to keep track of removed songs so that history and up_next may skip
 
   private static Map<String, Node> removed_songs = new HashMap<>();
+
+  // EXTRA CREDIT DATA STRUCTURE FEATURE: RECENTLY PLAYED - record up to ten of the latest played songs
+
+  private static Deque<song> recently_played = new ArrayDeque<>();
   
   // Head Node variable to keep pointer to head node (first song) for necessary reassignment
   
@@ -415,6 +419,8 @@ class MusicPlayer {
 
     playlist.tail.next = playlist.head;
 
+    playlist.head.prev = playlist.tail;
+
     setRepeat(true);
 
     showPlaylist();
@@ -425,9 +431,17 @@ class MusicPlayer {
 
     System.out.printf("\nhistory: %s", showHistory());
 
+    System.out.printf("\ncurrent song: %s", current_playing_song.val.title);
+
+    System.out.print("\n\n------------------------\nMODIFICATION TESTING BEGINS:\n-------------------------\n"); 
+
     Node play_last_song = play(song_id - 1, false);
 
     Node play_next_7 = next();
+
+    //System.out.printf("\nLast song has previous song: %b", findSong(5).prev != null);
+
+    //System.out.printf("\nPrevious song before second to last song: %s", findSong(3).prev.val);
 
     System.out.printf("\nhistory: %s", showHistory());
 
@@ -449,13 +463,77 @@ class MusicPlayer {
 
     Node play_next_11 = next();
 
-    Node play_next_12 = next();
+    System.out.printf("\ncurrent song: %s", play_next_11.val.title);
 
     System.out.printf("\nhistory: %s", showHistory());
 
-    System.out.printf("\ncurrent song: %s", current_playing_song.val.title);
+    Node play_next_12 = next();
 
-  /*  System.out.print("\n--- 9. Empty player ---");
+    System.out.printf("\ncurrent song: %s", play_next_12.val.title);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_next_13 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.print("\nFull loop of playlist starting from head: Night Drive\n");
+
+    showPlaylist();
+
+    System.out.printf("\ncurrent song: %s", play_next_13.val.title);
+
+    next();
+
+    System.out.print("\n\nMoved to next song.\n");
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node now_playing_3 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_3.val.title);
+
+    next();
+
+    Node now_playing_4 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_4.val.title);
+
+    next(); Node now_playing_5 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_5.val.title);
+
+    next(); Node now_playing_6 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_6.val.title);
+
+    next(); Node now_playing_7 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_7.val.title);
+
+    System.out.print("\n--- EXTRA CREDIT: Recently Played ---");
+
+    System.out.print("\n");
+
+    printRecentlyPlayed();
+
+    System.out.print("\n");
+
+    next();
+
+    System.out.print("\nNext most recent song: Slow Tide");
+
+    System.out.print("\nSong at back of recently played: Copper Sky");
+
+    System.out.printf("\ncurrent song: %s", nowPlaying().val.title);
+
+    System.out.print("\n");
+
+    printRecentlyPlayed();
+
+    System.out.print("\n");
+
+    System.out.print("\n--- 9. Empty player ---");
 
     current_playing_song = null;
 
@@ -463,11 +541,13 @@ class MusicPlayer {
 
     playlist = new DoublyLinkedList();
 
-    while (iterator <= song_id) {
+    // Bug: While loop does not remove elements from playlist, alternate solution is to instantiate new list
+
+    /*while (iterator < song_id) {
 
       Node remove_song = findSong(iterator);
 
-      current_playing_song = remove_song;
+      //current_playing_song = remove_song;
       
       if (current_playing_song == null) {
 
@@ -481,7 +561,7 @@ class MusicPlayer {
 
       iterator += 1;
 
-    }
+    }*/
 
     while (history.head != null) {
 
@@ -541,9 +621,7 @@ class MusicPlayer {
 
     }
 
-    System.out.print("\nplaylist: ");
-
-    showPlaylist();*/
+    showPlaylist();
 
   }
 
@@ -552,6 +630,46 @@ class MusicPlayer {
   private static void setRepeat(boolean mode) {
 
     repeat_playlist = mode;
+
+  }
+
+  // EXTRA CREDIT FEATURE: ADD TO RECENTLY PLAYED QUEUE
+
+  private static void addToRecentlyPlayed(song song) {
+
+    recently_played.addFirst(song);
+
+    // Remove song past index 9 once the queue reaches beyond size of 10 elements
+
+    if (recently_played.size() > 10) {
+
+      recently_played.pollLast();
+
+    }
+
+  }
+
+  // Print Recently Played Queue
+
+  private static void printRecentlyPlayed() {
+
+    if (recently_played.size() == 0) {
+
+      System.out.print("\nRecently Played: [  ]");
+
+    }
+
+    Deque<song> copy_queue = new ArrayDeque<>(recently_played);
+
+    System.out.printf("\nRecently Played: [ %s", copy_queue.pollFirst().title);
+
+    while (copy_queue.size() > 0) {
+
+      System.out.printf(", %s", copy_queue.pollFirst().title);
+
+    }
+
+    System.out.print(" ]");
 
   }
 
@@ -696,6 +814,12 @@ class MusicPlayer {
         loop_node_tracker = temp;
 
         return foundNode;
+
+      }
+
+      if (loop_node_tracker.val.id > song_id) {
+
+        return null;
 
       }
 
@@ -883,6 +1007,8 @@ class MusicPlayer {
 
     current_playing_song = song;
 
+    addToRecentlyPlayed(song.val);
+
     //System.out.printf("\nPlaying: %s\n", current.val.title);
     
     if (play_counts.get(song.val.id) != null) {
@@ -1043,7 +1169,51 @@ class MusicPlayer {
 
     if (up_next.size() == 0) {
 
-      if ( (current_playing_song.next == playlist.head && repeat_playlist) || ( song_id == current_playing_song.val.id - 1) || (findSong(current_playing_song.val.id + 1) == null && repeat_playlist) ) {
+      if (playlist.size() == 0 || current_playing_song == null) {
+
+        return null;
+
+      }
+
+      if ( (current_playing_song.next == playlist.head && repeat_playlist) || (findSong(current_playing_song.val.id + 1) == null && repeat_playlist) ) {
+
+        if (current_playing_song.next != playlist.head) {
+
+          //System.out.print("\nApproaching last song!");
+
+          Node temp = loop_node_tracker;
+
+          loop_node_tracker = current_playing_song;
+
+          while (loop_node_tracker != playlist.head) {
+
+            loop_node_tracker = loop_node_tracker.next;
+
+            //System.out.print("\nIn the loop!");
+
+            if (findSong(loop_node_tracker.val.id) != null) {
+
+              Node temp_1 = loop_node_tracker;
+
+              loop_node_tracker = temp;
+
+              return play(temp_1.val.id, false);
+
+            }
+
+            //System.out.printf("\ncurrent song title: %s", loop_node_tracker.val.title);
+
+            //System.out.printf("\nnext song title: %s", loop_node_tracker.next.val.title);
+
+            //System.out.printf("\ncurrent song title: %s", loop_node_tracker.val.title);
+
+          }
+
+          loop_node_tracker = temp;
+
+        }
+
+        //System.out.printf("\nnext song null: %b", findSong(current_playing_song.val.id + 1) == null);
 
         return play(playlist.head.val.id, false);
 
@@ -1052,6 +1222,8 @@ class MusicPlayer {
       // If there is no current song playing and the curated up next deque is empty, return null
 
       if (current_playing_song == null || ( findSong(current_playing_song.val.id + 1) == null && !repeat_playlist )) {
+
+        // Safety measure to assure that the next id is a removed song rather than not outright existing anywhere
 
         if (current_playing_song != null && removed_songs.get(current_playing_song.val.title) != null) {
 

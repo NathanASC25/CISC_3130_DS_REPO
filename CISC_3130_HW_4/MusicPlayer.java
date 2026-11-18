@@ -135,7 +135,7 @@ class MusicPlayer {
 
     //printSong(findSong("G"));
     
-    System.out.print("\nplaylist: ");
+    //System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -343,7 +343,7 @@ class MusicPlayer {
 
     System.out.printf("\nremove s9: %b", remove_ninth_song);
 
-    System.out.print("\nplaylist: ");
+    //System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -409,7 +409,7 @@ class MusicPlayer {
 
     playlist = new DoublyLinkedList();
 
-    while (iterator <= song_id) {
+    /*while (iterator <= song_id) {
 
       Node remove_song = findSong(iterator);
 
@@ -427,7 +427,7 @@ class MusicPlayer {
 
       iterator += 1;
 
-    }
+    }*/
 
     while (history.head != null) {
 
@@ -487,7 +487,7 @@ class MusicPlayer {
 
     }
 
-    System.out.print("\nplaylist: ");
+    //System.out.print("\nplaylist: ");
 
     showPlaylist();
 
@@ -655,7 +655,7 @@ class MusicPlayer {
 
   private static void showPlaylist() {
 
-    Node temp = loop_node_tracker;
+    /*Node temp = loop_node_tracker;
 
     loop_node_tracker = playlist.head;
 
@@ -683,7 +683,9 @@ class MusicPlayer {
 
     // Revert back to current variable's original Node position
 
-    loop_node_tracker = temp;
+    loop_node_tracker = temp;*/
+
+    System.out.printf("\nplaylist: %s", playlist);
 
   }
 

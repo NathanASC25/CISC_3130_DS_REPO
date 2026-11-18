@@ -1,0 +1,117 @@
+
+--- 1. Build the playlist ---
+true
+true
+true
+true
+true
+true
+duplicate s3: false
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Low Orbit, Glass Rivers ]
+
+--- 2. Look up songs ---
+find s4: Static Bloom
+find s9: null
+--- 3. Play and move forward ---
+play s1: Night Drive
+play s9: null
+next: Slow Tide
+next: Copper Sky
+history: [ Slow Tide, Night Drive ]
+
+--- 4. Up next ---
+true
+true
+true
+queue s9: false
+up next: [ Night Drive, Low Orbit, Glass Rivers ]
+
+next: Night Drive
+now playing: Night Drive
+history: [ Copper Sky, Slow Tide, Night Drive ]
+
+--- 5. Back button ---
+back: Copper Sky
+up next: [ Night Drive, Low Orbit, Glass Rivers ]
+
+history: [ Slow Tide, Night Drive ]
+
+--- 6. Remove songs ---
+remove s5: true
+remove current (s3): false
+remove s9: false
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Glass Rivers ]
+
+up next: [ Night Drive, Glass Rivers ]
+
+--- 7. Removed songs are skipped ---
+next: Night Drive
+next: Glass Rivers
+next at end: null
+now playing: Glass Rivers
+back: Night Drive
+up next: [ Glass Rivers ]
+--- 8. Play counts ---
+s1: 4
+s3: 2
+s6: 1
+s5 (removed): 0
+--- EXTRA CREDIT: Repeat Playlist ---
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Glass Rivers ]
+
+up next: [ Glass Rivers ]
+playlist head title: Night Drive
+history: [ Copper Sky, Slow Tide, Night Drive ]
+
+current song: Night Drive
+
+------------------------
+MODIFICATION TESTING BEGINS:
+-------------------------
+
+history: [ Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+history: [ Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+Last Song (Start from last in playlist): Glass Rivers
+After last song (from up next): Glass Rivers
+After last last song (Start over from playlist head): Night Drive
+current song: Static Bloom
+history: [ Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+current song: Glass Rivers
+history: [ Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+history: [ Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+Full loop of playlist starting from head: Night Drive
+
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Glass Rivers ]
+
+current song: Night Drive
+
+Moved to next song.
+
+history: [ Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+current song: Slow Tide
+current song: Copper Sky
+current song: Static Bloom
+current song: Glass Rivers
+current song: Night Drive
+--- EXTRA CREDIT: Recently Played ---
+
+Recently Played: [ Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide ]
+
+Next most recent song: Slow Tide
+Song at back of recently played: Copper Sky
+current song: Slow Tide
+
+Recently Played: [ Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky ]
+
+--- 9. Empty player ---
+next: null
+back: null
+now playing: null
+playlist: 
+[ ]

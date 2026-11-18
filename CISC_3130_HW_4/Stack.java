@@ -104,7 +104,7 @@ class Stack {
 
     }
 
-    String str = "\n";
+    String str = "";
 
     Node currentNode = head;
 

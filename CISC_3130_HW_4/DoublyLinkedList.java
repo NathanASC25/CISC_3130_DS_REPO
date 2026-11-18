@@ -303,13 +303,13 @@ class DoublyLinkedList {
 
     if (size == 0) {
 
-      return "\nThe playlist is empty!\n";
+      return "[ ]";
 
     }
 
     current = head;
 
-    String str = String.format("\n[ %s", current.val.title());
+    String str = String.format("[ %s", current.val.title());
 
     current = current.next;
 
