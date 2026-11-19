@@ -1,0 +1,222 @@
+MusicPlayer.java:
+
+Lines 42 - 44:
+
+// EXTRA CREDIT DATA STRUCTURE FEATURE: RECENTLY PLAYED - record up to ten of the latest played songs
+
+  private static Deque<song> recently_played = new ArrayDeque<>();
+
+Lines 66 - 68:
+
+// EXTRA CREDIT FEATURE: REPEAT MODE
+  
+  private static boolean repeat_playlist;
+
+Lines 628 - 650:
+
+// EXTRA CREDIT FEATURE: REPEAT PLAYLIST MODE
+
+  private static void setRepeat(boolean mode) {
+
+    repeat_playlist = mode;
+
+  }
+
+  // EXTRA CREDIT FEATURE: ADD TO RECENTLY PLAYED QUEUE
+
+  private static void addToRecentlyPlayed(song song) {
+
+    recently_played.addFirst(song);
+
+    // Remove song past index 9 once the queue reaches beyond size of 10 elements
+
+    if (recently_played.size() > 10) {
+
+      recently_played.pollLast();
+
+    }
+
+  }
+
+Testing Lines:
+
+Lines 416 - 534:
+
+System.out.print("\n--- EXTRA CREDIT: Repeat Playlist ---");
+
+    // Assigning next of tail to head, creating a circular linked list
+
+    playlist.tail.next = playlist.head;
+
+    playlist.head.prev = playlist.tail;
+
+    setRepeat(true);
+
+    showPlaylist();
+
+    System.out.printf("\nup next: %s", showUpNext());
+
+    System.out.printf("\nplaylist head title: %s", playlist.head.val.title);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.printf("\ncurrent song: %s", current_playing_song.val.title);
+
+    System.out.print("\n\n------------------------\nMODIFICATION TESTING BEGINS:\n-------------------------\n"); 
+
+    Node play_last_song = play(song_id - 1, false);
+
+    Node play_next_7 = next();
+
+    //System.out.printf("\nLast song has previous song: %b", findSong(5).prev != null);
+
+    //System.out.printf("\nPrevious song before second to last song: %s", findSong(3).prev.val);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_next_8 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.printf("\nLast Song (Start from last in playlist): %s", play_last_song.val.title);
+
+    System.out.printf("\nAfter last song (from up next): %s", play_next_7.val.title);
+
+    System.out.printf("\nAfter last last song (Start over from playlist head): %s", play_next_8.val.title);
+
+    // Go through the list again until last song
+
+    Node play_next_9 = next();
+
+    Node play_next_10 = next();
+
+    Node play_next_11 = next();
+
+    System.out.printf("\ncurrent song: %s", play_next_11.val.title);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_next_12 = next();
+
+    System.out.printf("\ncurrent song: %s", play_next_12.val.title);
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node play_next_13 = next();
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    System.out.print("\nFull loop of playlist starting from head: Night Drive\n");
+
+    showPlaylist();
+
+    System.out.printf("\ncurrent song: %s", play_next_13.val.title);
+
+    next();
+
+    System.out.print("\n\nMoved to next song.\n");
+
+    System.out.printf("\nhistory: %s", showHistory());
+
+    Node now_playing_3 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_3.val.title);
+
+    next();
+
+    Node now_playing_4 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_4.val.title);
+
+    next(); Node now_playing_5 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_5.val.title);
+
+    next(); Node now_playing_6 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_6.val.title);
+
+    next(); Node now_playing_7 = nowPlaying();
+
+    System.out.printf("\ncurrent song: %s", now_playing_7.val.title);
+
+    System.out.print("\n--- EXTRA CREDIT: Recently Played ---");
+
+    System.out.print("\n");
+
+    printRecentlyPlayed();
+
+    System.out.print("\n");
+
+    next();
+
+    System.out.print("\nNext most recent song: Slow Tide");
+
+    System.out.print("\nSong at back of recently played: Copper Sky");
+
+    System.out.printf("\ncurrent song: %s", nowPlaying().val.title);
+
+    System.out.print("\n");
+
+    printRecentlyPlayed();
+
+    System.out.print("\n");
+
+
+
+Output (execution_results.txt):
+
+Lines 59 - 110:
+
+--- EXTRA CREDIT: Repeat Playlist ---
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Glass Rivers ]
+
+up next: [ Glass Rivers ]
+playlist head title: Night Drive
+history: [ Copper Sky, Slow Tide, Night Drive ]
+
+current song: Night Drive
+
+------------------------
+MODIFICATION TESTING BEGINS:
+-------------------------
+
+history: [ Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+history: [ Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+Last Song (Start from last in playlist): Glass Rivers
+After last song (from up next): Glass Rivers
+After last last song (Start over from playlist head): Night Drive
+current song: Static Bloom
+history: [ Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+current song: Glass Rivers
+history: [ Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+history: [ Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+Full loop of playlist starting from head: Night Drive
+
+playlist: [ Night Drive, Slow Tide, Copper Sky, Static Bloom, Glass Rivers ]
+
+current song: Night Drive
+
+Moved to next song.
+
+history: [ Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Glass Rivers, Night Drive, Copper Sky, Slow Tide, Night Drive ]
+
+current song: Slow Tide
+current song: Copper Sky
+current song: Static Bloom
+current song: Glass Rivers
+current song: Night Drive
+--- EXTRA CREDIT: Recently Played ---
+
+Recently Played: [ Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide ]
+
+Next most recent song: Slow Tide
+Song at back of recently played: Copper Sky
+current song: Slow Tide
+
+Recently Played: [ Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky, Slow Tide, Night Drive, Glass Rivers, Static Bloom, Copper Sky ]

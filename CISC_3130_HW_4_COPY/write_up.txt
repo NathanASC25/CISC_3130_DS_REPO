@@ -1,0 +1,83 @@
+Part A: Big-O table
+
+1) Method: addSong
+
+Structures it touches: The DoublyLinkedList for playlist and HashMap for library.
+
+Big-O: O(1) for constant time operations.
+
+One-line Reason: The playlist usually appends the song to the end of the playlist, a constant time operation. The library assigns a new key-value pair, also a constant time operation. Two constant time operations will simplify to O(1) since constants can be ignored in a generalized form. However, the playlist may causethe addSong method to commit a linear time operation if prepending a song to replace the id of a removed song.
+
+2) Method: findSong
+
+Structures it touches: The DoublyLinkedList for playlist and the HashMap for the library.
+
+Big-O: O(1) Constant time utilizing String title, O(n) linear time utilizing id number.
+
+One-line Reason: There are two methods with the same name. The method utilizing the String parameter can access the existing song with a String key, with the corresponding song value. The overloaded method utilizes the number id, looping through the playlist to find an existing song with the id.
+
+3) Method: play
+
+Structures it touches: The DoublyLinkedList for playlist and the Stack for history.
+
+Big-O: O(1) Constant time for searching through the playlist.
+
+One-line Reason: There is a constant time operation when checking the head of the history stack or pushing a new value. However, there is also a while loop to search through the playlist for an existing song to play.
+
+4) Method: queueLater
+
+Structures it touches: The ArrayDeque for the up next structure.
+
+Big-O: O(1) Constant time for adding song to the end of up next.
+
+One-line Reason: The queueLater method adds an existing song to the back of the up next structure in constant time via the addLast method of ArrayDeque, amortized O(1).
+
+5) Method: queueNext
+
+Structures it touches: The ArrayDeque for the up next structure.
+
+Big-O: O(1) Constant time for adding song to the beginning of up next.
+
+One-line Reason: The queueNext method adds an existing song to the front of the up next structure in constant time via the addFirst method of ArrayDeque, also amortized.
+
+6) Method: next
+
+Structures it touches: The DoublyLinkedList for the playlist, the ArrayDeque for up next, and a HashMap for removed songs.
+
+Big-O: O(n) linear time for general playlist traversal or up next traversal.
+
+One-line Reason: There are sections of while loop traversals within a section for the playlist, when there are no songs in up next. There are also while loop traversals in the section where there are songs in up next, taking priority over the playlist. The traversals also consider the cases of removed songs.
+
+7) Method: back
+
+Structures it touches: The stack for history and the HashMap for removed songs.
+
+Big-O: O(n) linear time
+
+One-line Reason: There is a potential while loop traversal through the history stack, involving the pop method, if a song is detected in the removed songs library. The history stack keeps popping until a song that is valid, not removed, is found.
+
+8) Method: removeSong
+
+Structures it touches: The DoublyLinkedList for the playlist, the HashMap for the library, and the HashMap for the removed songs
+
+Big-O: O(n) linear time
+
+One-line Reason: The delete method of the DoublyLinkedList traverses the playlist with a while loop in order to perform the operation on the location Node of the song.
+
+9) Method: showPlaylist
+
+Structures it touches: The DoublyLinkedList for the playlist
+
+Big-O: O(n) linear time
+
+One-line Reason: The toString() method of the DoublyLinkedList is utilized within the print statement of this void method. The while loop is used to traverse the list.
+
+Part B: Defend two choices
+
+Structure One: HashMap
+
+The HashMap's role is to act as the data structure for the library of valid songs, the collection of the number of times each song has been played, and the collection of removed songs. If these containers utilized a plain array instead, the lookup for the correct songs would take more operations to find, a degrade from the O(1) constant time lookup, to an O(n) linear time lookup, generally. This is because the HashMap utilizes the key as an available access point for the corresponding song, whereas the indexes of an array would require traversal and checking of each Node's value for its existence. Reusing the built-in HashMap as opposed to building my own would ensure keeping the constant time lookup and delegating the work of managing Node values with the correct keys to the Java library. However, there may be space overhead in which a self-built structure may provide better performance through more effecient memory allocation.
+
+Structure Two: ArrayDeque
+
+The ArrayDeque's role is to act as the data structure for the curated up_next playlist and the recently played reference list. If swapped for a plain array, the elements would have to keep shifting when adding an element at the front of either the up_next playlist or the recently played list, causing a change from a constant time operation to a linear time operation. Adding to the back of the queue would also be a linear time operation for an array as opposed to constant time for the ArrayDeque, removing from either the back of front as well. With a self-built ArrayDeque, I could cut down on memory costs by only building the necessary methods I need, without including the library's methods that I don't use.
