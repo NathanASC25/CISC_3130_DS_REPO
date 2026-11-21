@@ -1,0 +1,4 @@
+- Assignment: Homework #4 (Build a Music Player) for CISC 3130, Prof. Hulse
+- Name: Nathan Chin
+- Programming Language: Java
+- Editor: Vim
