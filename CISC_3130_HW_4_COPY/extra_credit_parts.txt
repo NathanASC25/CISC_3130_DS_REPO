@@ -38,6 +38,16 @@ Lines 628 - 650:
 
   }
 
+Methods Changed (MusicPlayer.java):
+
+1) play
+
+2) start
+
+3) next
+
+4) back
+
 Testing Lines:
 
 Lines 416 - 534:
